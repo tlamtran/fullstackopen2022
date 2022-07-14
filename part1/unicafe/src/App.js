@@ -2,23 +2,33 @@ import { useState } from 'react'
 
 const Button = ({click, text}) => <button onClick={click}>{text}</button>
 
-const Display = ({id, value}) => <p>{id} {value}</p>
+const StatisticLine = ({id, value}) => {
+  return(
+    <tr style={{textAlign: "left"}}>
+      <td>{id}</td>
+      <td>{value}</td>
+    </tr>
+  )
+}
 
 const Title = ({title}) => <h1>{title}</h1>
 
 const Statistics = ({good, bad, neutral, all}) => {
   const average = (good - bad) / all
-  const positive = (good / all)
+  const positive = (good / all) * 100 + " %"
 
   if (all > 0) {
     return(
-      <div>
-        <Display id="good" value={good}/>
-        <Display id="neutral" value={neutral}/>
-        <Display id="bad" value={bad}/>
-        <p>average {average}</p>
-        <p>positive {positive} %</p>
-      </div>
+      <table>
+        <tbody style={{ textAlign: "right" }}>
+          <StatisticLine id="good" value={good}/>
+          <StatisticLine id="neutral" value={neutral}/>
+          <StatisticLine id="bad" value={bad}/>
+          <StatisticLine id="all" value={all}/>
+          <StatisticLine id="average" value={average}/>
+          <StatisticLine id="positive" value={positive}/>
+        </tbody>
+      </table>
     )
   }
   else {
@@ -56,6 +66,11 @@ const App = () => {
       <Button click={()=> handleBad()} text="bad"/>
       <Title title="statistics"/>
       <Statistics good={good} bad={bad} neutral={neutral} all={all}/>
+      <table>
+        <td>
+
+        </td>
+      </table>
     </div>
   )
 }
