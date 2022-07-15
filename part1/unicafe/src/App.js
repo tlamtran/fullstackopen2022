@@ -66,11 +66,6 @@ const App = () => {
       <Button click={()=> handleBad()} text="bad"/>
       <Title title="statistics"/>
       <Statistics good={good} bad={bad} neutral={neutral} all={all}/>
-      <table>
-        <td>
-
-        </td>
-      </table>
     </div>
   )
 }
