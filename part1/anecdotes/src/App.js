@@ -12,6 +12,14 @@ const Title = ({title}) => {
   )
 }
 
+const Content = ({anecdote, point}) => {
+  return(
+    <div>
+      <p>{anecdote}</p>
+      <p>has votes {point}</p>
+    </div>
+  )
+}
 
 const App = () => {
   const anecdotes = [
@@ -47,13 +55,11 @@ const App = () => {
   return (
     <div>
       <Title title="Anecdote of the day"/>
-      <p>{anecdotes[selected]}</p>
-      <p>has votes {points[selected]}</p>
+      <Content anecdote={anecdotes[selected]} point={points[selected]}/>
       <Button onClick={() => vote()} text="vote" />
       <Button onClick={() => randIntInterval(0, anecdotes.length-1)} text="next anecdote"/>
       <Title title="Anecdote with most votes"/>
-      <p>{anecdotes[max.index]}</p>
-      <p>has votes {points[max.index]}</p>
+      <Content anecdote={anecdotes[max.index]} point={points[max.index]}/>
     </div>
   )
 }
