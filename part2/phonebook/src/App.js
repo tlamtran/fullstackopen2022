@@ -18,7 +18,8 @@ const App = () => {
     if (persons.every( p => p.name !== newName)) {
       const person = {
         name: newName,
-        number: newNumber
+        number: newNumber,
+        id: persons.length + 1
       }
       setPersons(persons.concat(person))
       setNewName('')
