@@ -49,6 +49,8 @@ const App = () => {
               setNewName('')
               setNewNumber('')
             })
+          setErrorMessage(original.name + " number has been updated")
+          setTimeout( () => setErrorMessage(''), 5000)
         }
       }
     }
