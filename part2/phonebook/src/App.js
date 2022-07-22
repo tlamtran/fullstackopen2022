@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react'
 import Filter from './components/Filter'
 import Input from './components/Input'
-import axios from 'axios'
+import Button from './components/Button'
+import numberServices from './services/numbers'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
 
   useEffect( () => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then( response => setPersons(response.data))
+    numberServices  
+      .getAll()
+      .then( initialData => setPersons(initialData))
   }, [])
 
   const [newName, setNewName] = useState('')
@@ -22,12 +23,16 @@ const App = () => {
     if (persons.every( p => p.name !== newName)) {
       const person = {
         name: newName,
-        number: newNumber,
-        id: persons.length + 1
+        number: newNumber
       }
-      setPersons(persons.concat(person))
-      setNewName('')
-      setNewNumber('')
+
+      numberServices
+        .create(person)
+        .then( data => {
+          setPersons(persons.concat(data))
+          setNewName('')
+          setNewNumber('')
+        })
     }
     else alert(newName + ' is already added to phonebook')
     
@@ -47,20 +52,14 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
       <Input text="filter shown with" value={newFilter} onChange={handleFilterChange}/>
-
       <h2>add new number</h2>
       <form>
         <Input text="name:" value={newName} onChange={handleNameInputChange}/>
         <Input text="number:" value={newNumber} onChange={handleNumInputChange}/>
-        <div>
-          <button type="submit" onClick={add}>
-            add
-          </button>
-        </div>
+        <Button type="submit" text="add" onClick={add}/>
       </form>
-
       <h2>Numbers</h2>
       <Filter persons={persons} filter={newFilter}/>
     </div>
