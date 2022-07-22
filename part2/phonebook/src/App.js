@@ -11,6 +11,27 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [newFilter, setNewFilter] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
+  const [successMessage, setSuccessMessage] = useState('')
+
+  const errorStyle = {
+    color: 'red',
+    background: 'lightgrey',
+    fontSize: 20,
+    borderStyle: 'solid',
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10
+}
+
+const successStyle = {
+  color: 'green',
+  background: 'lightgrey',
+  fontSize: 20,
+  borderStyle: 'solid',
+  borderRadius: 5,
+  padding: 10,
+  marginBottom: 10
+}
 
   useEffect( () => {
     numberServices  
@@ -34,9 +55,9 @@ const App = () => {
             setPersons(persons.concat(data))
             setNewName('')
             setNewNumber('')
+            setSuccessMessage("Added " + person.name)
+            setTimeout( () => setSuccessMessage(''), 5000)
           })
-        setErrorMessage("Added " + person.name)
-        setTimeout( () => setErrorMessage(''), 5000)
       }
       else {
         if (window.confirm(newName + " is already added to phonebook, replace the old number with a new one?")) {
@@ -48,9 +69,9 @@ const App = () => {
               setPersons(persons.map( p => p.id !== original.id ? p : copy))
               setNewName('')
               setNewNumber('')
+              setSuccessMessage(original.name + " number has been updated")
+              setTimeout( () => setSuccessMessage(''), 5000)
             })
-          setErrorMessage(original.name + " number has been updated")
-          setTimeout( () => setErrorMessage(''), 5000)
         }
       }
     }
@@ -67,7 +88,10 @@ const App = () => {
                 .getAll()
                 .then( updatedData => setPersons(updatedData))
             })
-          
+            .catch(error => {
+              setErrorMessage("information of " + p.name + " has already been removed from server")
+              setTimeout( () => setErrorMessage(''), 5000)
+            })
         }
       }
     )
@@ -88,7 +112,8 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={errorMessage}/>
+      <Notification message={errorMessage} style={errorStyle}/>
+      <Notification message={successMessage} style={successStyle}/>
       <Input text="filter shown with" value={newFilter} onChange={handleFilterChange}/>
       <h2>add new number</h2>
       <form>
