@@ -1,18 +1,18 @@
-const Filter = ({persons, filter}) => {
-    return(
-        <ul>
-            {persons.filter( p => p.name.toLowerCase().includes(filter.toLowerCase()))
-                    .map( p => <Person person={p} key={p.id}/>)}
-        </ul>
-    )
-}
+import Button from "./Button"
 
-const Person = ({person}) => {
+const Filter = ({persons, filter, removePerson}) => {
+
     return(
-        <li>
-            {person.name} {person.number}
-        </li>
+        <div>
+            {persons.filter( p => p.name.toLowerCase().includes(filter.toLowerCase()))
+                    .map( p => 
+                    <p key={p.id}>
+                        {p.name} {p.number} <Button text="delete" type="submit" onClick={removePerson(p)}/>
+                    </p>
+                    )}
+        </div>
     )
 }
+ 
 
 export default Filter

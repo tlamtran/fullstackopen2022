@@ -34,8 +34,24 @@ const App = () => {
           setNewNumber('')
         })
     }
-    else alert(newName + ' is already added to phonebook')
-    
+    else alert(newName + ' is already added to phonebook')  
+  }
+
+  const removePerson = (p) => {
+    return(
+      () => {
+        if (window.confirm("Delete " + p.name + "?")) {
+          numberServices
+            .remove(p.id)
+            .then( () => {
+              numberServices
+                .getAll()
+                .then( updatedData => setPersons(updatedData))
+            })
+          
+        }
+      }
+    )
   }
 
   const handleNameInputChange = (event) => {
@@ -61,7 +77,7 @@ const App = () => {
         <Button type="submit" text="add" onClick={add}/>
       </form>
       <h2>Numbers</h2>
-      <Filter persons={persons} filter={newFilter}/>
+      <Filter persons={persons} filter={newFilter} removePerson={removePerson}/>
     </div>
   )
 }
