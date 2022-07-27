@@ -40,8 +40,8 @@ const successStyle = {
   }, [])
 
   const add = (event) => {
+    event.preventDefault()
     if (newName !== '') {
-      event.preventDefault()
   
       if (persons.every( p => p.name !== newName)) {
         const person = {
@@ -52,7 +52,7 @@ const successStyle = {
         numberServices
           .create(person)
           .then( data => {
-            setPersons(persons.concat(data))
+            setPersons(data)
             setNewName('')
             setNewNumber('')
             setSuccessMessage("Added " + person.name)
@@ -84,9 +84,7 @@ const successStyle = {
           numberServices
             .remove(p.id)
             .then( () => {
-              numberServices
-                .getAll()
-                .then( updatedData => setPersons(updatedData))
+              setPersons(persons.filter( person => person.name !== p.name))
             })
             .catch(error => {
               setErrorMessage("information of " + p.name + " has already been removed from server")
