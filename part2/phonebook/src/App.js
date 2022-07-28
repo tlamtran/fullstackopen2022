@@ -52,7 +52,7 @@ const successStyle = {
         numberServices
           .create(person)
           .then( data => {
-            setPersons(data)
+            setPersons(persons.concat(data))
             setNewName('')
             setNewNumber('')
             setSuccessMessage("Added " + person.name)
